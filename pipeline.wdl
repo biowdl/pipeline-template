@@ -2,20 +2,20 @@ import "sample.wdl" as sample
 import "sampleConfig.wdl" as sampleConfig
 
 workflow pipeline {
-    Array[File] sampleConfigs
+    Array[File] sampleConfigFiles
 
     call sampleConfig.DownloadSampleConfig as downloadSampleConfig
 
     call sampleConfig.SampleConfig as samplesConfigs {
         input:
-            inputFiles = sampleConfigs,
+            inputFiles = sampleConfigFiles,
             jar = downloadSampleConfig.jar
     }
 
     scatter (sampleId in samplesConfigs.keys) {
         call sample.sample {
             input:
-                sampleConfigs = sampleConfigs,
+                sampleConfigs = sampleConfigFiles,
                 sampleId = sampleId
         }
     }
