@@ -19,25 +19,26 @@
 # SOFTWARE.
 
 import "readgroup.wdl" as readgroup
-import "sampleConfig.wdl" as sampleConfig
+import "tasks/biopet.wdl" as biopet
 
 workflow library {
     Array[File] sampleConfigs
     String sampleId
     String libraryId
 
-    call sampleConfig.SampleConfig as readgroups {
+    call biopet.SampleConfig as readgroupConfigs {
         input:
             inputFiles = sampleConfigs,
             sample = sampleId,
             library = libraryId,
-            tsvOutputPath = "samples/" + sampleId + "/libs/" + libraryId + "/" + libraryId + ".config.tsv"
+            tsvOutputPath = libraryId + ".config.tsv"
     }
 
-    scatter (readgroupId in readgroups.keys) {
+    scatter (readgroupId in readgroupConfigs.keys) {
         if (readgroupId != "") {
-            call readgroup.readgroup {
+            call readgroup.readgroup as readgroup {
                 input:
+                    outputDir = outputDir + "/rg_" + rg,
                     sampleConfigs = sampleConfigs,
                     readgroupId = readgroupId,
                     libraryId = libraryId,

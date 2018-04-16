@@ -18,22 +18,22 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-
-import "sampleConfig.wdl" as sampleConfig
+import "tasks/biopet.wdl" as biopet
 
 workflow readgroup {
     Array[File] sampleConfigs
     String readgroupId
     String libraryId
     String sampleId
+    String outputDir
 
-    call sampleConfig.SampleConfig as config {
+    call biopet.SampleConfig as config {
         input:
             inputFiles = sampleConfigs,
             sample = sampleId,
             library = libraryId,
             readgroup = readgroupId,
-            tsvOutputPath = "samples/" + sampleId + "/libs/" + libraryId + "/readgroups/" + readgroupId + "/" + readgroupId + ".config.tsv"
+            tsvOutputPath = readgroupId + ".config.tsv"
     }
 
     output {

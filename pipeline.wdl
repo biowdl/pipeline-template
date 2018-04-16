@@ -18,22 +18,21 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import "sample.wdl" as sample
-import "sampleConfig.wdl" as sampleConfig
+import "sample.wdl" as sampleWorkflow
+import "tasks/biopet.wdl" as biopet
 
 workflow pipeline {
     Array[File] sampleConfigFiles
+    String outputDir
 
-    call sampleConfig.DownloadSampleConfig as downloadSampleConfig
-
-    call sampleConfig.SampleConfig as samplesConfigs {
+    #  Reading the samples from the sample config files
+    call biopet.SampleConfig as samplesConfigs {
         input:
-            inputFiles = sampleConfigFiles,
-            jar = downloadSampleConfig.jar
+            inputFiles = sampleConfigFiles
     }
 
     scatter (sampleId in samplesConfigs.keys) {
-        call sample.sample {
+        call sampleWorkflow.sample as sample {
             input:
                 sampleConfigs = sampleConfigFiles,
                 sampleId = sampleId

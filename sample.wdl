@@ -18,25 +18,27 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import "library.wdl" as library
-import "sampleConfig.wdl" as sampleConfig
+import "library.wdl" as libraryWorkflow
+import "tasks/biopet.wdl" as biopet
 
 workflow sample {
     Array[File] sampleConfigs
     String sampleId
+    String outputDir
 
-    call sampleConfig.SampleConfig as librariesConfigs {
+    call biopet.SampleConfig as librariesConfigs {
         input:
             inputFiles = sampleConfigs,
             sample = sampleId,
-            jsonOutputPath = "samples/" + sampleId + "/" + sampleId + ".config.json",
-            tsvOutputPath = "samples/" + sampleId + "/" + sampleId + ".config.tsv"
+            jsonOutputPath = sampleId + ".config.json",
+            tsvOutputPath = sampleId + ".config.tsv"
     }
 
     scatter (libraryId in librariesConfigs.keys) {
         if (libraryId != "") {
-            call library.library {
+            call libraryWorkflow.library as library {
                 input:
+                    outputDir = outputDir + "/lib_" + lb,
                     sampleConfigs = sampleConfigs,
                     libraryId = libraryId,
                     sampleId = sampleId
