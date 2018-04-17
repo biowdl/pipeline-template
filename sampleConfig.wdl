@@ -45,15 +45,3 @@ task SampleConfig {
         Object values = if (defined(tsvOutput) && size(tsvOutput) > 0) then read_map(tsvOutput) else { "": "" }
     }
 }
-
-task DownloadSampleConfig {
-    String? release = "0.1"
-
-    command {
-        wget https://github.com/biopet/sampleconfig/releases/download/v${release}/SampleConfig-assembly-${release}.jar
-    }
-
-    output {
-        File jar = "SampleConfig-assembly-" + release + ".jar"
-    }
-}

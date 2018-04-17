@@ -26,6 +26,7 @@ workflow sample {
     String sampleId
     String outputDir
 
+    # Get the library configuration
     call biopet.SampleConfig as librariesConfigs {
         input:
             inputFiles = sampleConfigs,
@@ -34,6 +35,8 @@ workflow sample {
             tsvOutputPath = sampleId + ".config.tsv"
     }
 
+    # Do the work per library.
+    # Modify library.wdl to change what is happening per library.
     scatter (libraryId in librariesConfigs.keys) {
         if (libraryId != "") {
             call libraryWorkflow.library as library {
@@ -45,6 +48,9 @@ workflow sample {
             }
         }
     }
+
+    # Do the per sample work and the work over all the library
+    # results below this line.
 
     output {
         Array[String] libraries = librariesConfigs.keys

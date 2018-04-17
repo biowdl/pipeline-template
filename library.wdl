@@ -25,7 +25,9 @@ workflow library {
     Array[File] sampleConfigs
     String sampleId
     String libraryId
+    String outputDir
 
+    # Get the readgroup configuration
     call biopet.SampleConfig as readgroupConfigs {
         input:
             inputFiles = sampleConfigs,
@@ -34,16 +36,25 @@ workflow library {
             tsvOutputPath = libraryId + ".config.tsv"
     }
 
+    # The jobs that are done per readgroup.
+    # Modify readgroup.wdl to change what is happening per readgroup
     scatter (readgroupId in readgroupConfigs.keys) {
         if (readgroupId != "") {
             call readgroup.readgroup as readgroup {
                 input:
-                    outputDir = outputDir + "/rg_" + rg,
+                    outputDir = outputDir + "/rg_" + readgroupId,
                     sampleConfigs = sampleConfigs,
                     readgroupId = readgroupId,
                     libraryId = libraryId,
                     sampleId = sampleId
             }
         }
+    }
+
+    # Add the jobs that are done per library and over the results of
+    # all the readgroups below this line.
+
+    output {
+        Array[String] readgroups = readgroupConfigs.keys
     }
 }
