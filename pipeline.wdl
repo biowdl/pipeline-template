@@ -37,7 +37,8 @@ workflow pipeline {
         call sampleWorkflow.sample as sample {
             input:
                 sampleConfigs = sampleConfigFiles,
-                sampleId = sampleId
+                sampleId = sampleId,
+                outputDir = outputDir + "/sample_" + sampleId
         }
     }
 

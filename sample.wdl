@@ -41,7 +41,7 @@ workflow sample {
         if (libraryId != "") {
             call libraryWorkflow.library as library {
                 input:
-                    outputDir = outputDir + "/lib_" + lb,
+                    outputDir = outputDir + "/lib_" + libraryId,
                     sampleConfigs = sampleConfigs,
                     libraryId = libraryId,
                     sampleId = sampleId
