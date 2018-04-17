@@ -1,0 +1,9 @@
+language: java
+
+env:
+  - CROMWELL_VERSION=31
+
+script:
+  - set -e
+  - wget https://github.com/broadinstitute/cromwell/releases/download/$CROMWELL_VERSION/womtool-$CROMWELL_VERSION.jar
+  - for file in $(find -name "*.wdl"); do java -jar womtool-$CROMWELL_VERSION.jar validate $file; done
