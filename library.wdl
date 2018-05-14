@@ -33,12 +33,13 @@ workflow library {
             inputFiles = sampleConfigs,
             sample = sampleId,
             library = libraryId,
-            tsvOutputPath = libraryId + ".config.tsv"
+            tsvOutputPath = outputDir + "/" + libraryId + ".config.tsv",
+            stdoutFile = outputDir + "/" + libraryId + ".config.keys"
     }
 
     # The jobs that are done per readgroup.
     # Modify readgroup.wdl to change what is happening per readgroup
-    scatter (readgroupId in readgroupConfigs.keys) {
+    scatter (readgroupId in read_line(readgroupConfigs.keysFile)) {
         if (readgroupId != "") {
             call readgroup.readgroup as readgroup {
                 input:
@@ -55,6 +56,6 @@ workflow library {
     # all the readgroups below this line.
 
     output {
-        Array[String] readgroups = readgroupConfigs.keys
+        Array[String] readgroups = read_lines(readgroupConfigs.keysFile)
     }
 }
