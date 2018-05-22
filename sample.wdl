@@ -33,7 +33,7 @@ workflow sample {
             sample = sampleId,
             jsonOutputPath = outputDir + "/" + sampleId + ".config.json",
             tsvOutputPath = outputDir + "/" + sampleId + ".config.tsv",
-            stdoutFile = outputDir + "/" + sampleId + ".config.keys"
+            keyFilePath = outputDir + "/" + sampleId + ".config.keys"
     }
 
     # Do the work per library.

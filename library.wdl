@@ -34,7 +34,7 @@ workflow library {
             sample = sampleId,
             library = libraryId,
             tsvOutputPath = outputDir + "/" + libraryId + ".config.tsv",
-            stdoutFile = outputDir + "/" + libraryId + ".config.keys"
+            keyFilePath = outputDir + "/" + libraryId + ".config.keys"
     }
 
     # The jobs that are done per readgroup.

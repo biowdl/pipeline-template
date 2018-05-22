@@ -29,7 +29,7 @@ workflow pipeline {
     call biopet.SampleConfig as samplesConfigs {
         input:
             inputFiles = sampleConfigFiles,
-            stdoutFile = outputDir + "/condif.keys"
+            keyFilePath = outputDir + "/condif.keys"
     }
 
     # Do the jobs that should be executed per sample.
