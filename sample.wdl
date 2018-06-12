@@ -31,13 +31,14 @@ workflow sample {
         input:
             inputFiles = sampleConfigs,
             sample = sampleId,
-            jsonOutputPath = sampleId + ".config.json",
-            tsvOutputPath = sampleId + ".config.tsv"
+            jsonOutputPath = outputDir + "/" + sampleId + ".config.json",
+            tsvOutputPath = outputDir + "/" + sampleId + ".config.tsv",
+            keyFilePath = outputDir + "/" + sampleId + ".config.keys"
     }
 
     # Do the work per library.
     # Modify library.wdl to change what is happening per library.
-    scatter (libraryId in librariesConfigs.keys) {
+    scatter (libraryId in read_lines(librariesConfigs.keysFile)) {
         if (libraryId != "") {
             call libraryWorkflow.library as library {
                 input:
@@ -53,6 +54,6 @@ workflow sample {
     # results below this line.
 
     output {
-        Array[String] libraries = librariesConfigs.keys
+        Array[String] libraries = read_lines(librariesConfigs.keysFile)
     }
 }
