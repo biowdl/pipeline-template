@@ -1,4 +1,4 @@
-version draft-3
+version 1.0
 
 # Copyright (c) 2018 Sequencing Analysis Support Core - Leiden University Medical Center
 #
