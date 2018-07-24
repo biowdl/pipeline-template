@@ -22,11 +22,13 @@ version 1.0
 
 import "sample.wdl" as sampleWorkflow
 import "tasks/biopet.wdl" as biopet
+import "samplesheet.wdl" as sampleSheet
 
 workflow pipeline {
-    Array[File] sampleConfigFiles
-    String outputDir
-
+    input {
+        File sampleConfigFile
+        String outputDir
+    }
     #  Reading the samples from the sample config files
     call biopet.SampleConfig as samplesConfigs {
         input:
@@ -50,4 +52,16 @@ workflow pipeline {
     output {
         Array[String] samples = samplesConfigs.keys
     }
+}
+
+task sampleConfigFileToStruct {
+    input {
+        File sampleConfigFile
+    }
+    command {
+        python3 <<CODE
+        import yaml
+
+    }
+    output
 }
