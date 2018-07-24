@@ -1,5 +1,0 @@
-- id: sample1
-  libraries:
-    - id: lib1
-      readgroups:
-      - id: Readgroup1
