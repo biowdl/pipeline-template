@@ -25,15 +25,17 @@ import "samplesheet.wdl" as samplesheet
 
 workflow pipeline {
     input {
-        File sampleConfigFile
+        File sampleConfigFiles
         String outputDir
     }
     #  Reading the samples from the sample config files
-    call samplesheet.sampleConfigFileToStruct {
+    scatter (sampleConfigFile in sampleConfigFiles) {
+        call samplesheet.sampleConfigFileToStruct {
         input:
             sampleConfigFile = sampleConfigFile
+        }
     }
-    Array[Sample] samples = sampleConfigFileToStruct.samples
+    Array[Sample] samples = flatten(sampleConfigFileToStruct.samples)
 
     # Do the jobs that should be executed per sample.
     # Modify sample.wdl to change what is happening per sample
