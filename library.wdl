@@ -1,4 +1,4 @@
-version draft-3
+version 1.0
 
 # Copyright (c) 2018 Sequencing Analysis Support Core - Leiden University Medical Center
 #
@@ -21,42 +21,31 @@ version draft-3
 # SOFTWARE.
 
 import "readgroup.wdl" as readgroup
-import "tasks/biopet.wdl" as biopet
+import "samplesheet.wdl" as samplesheet
 
 workflow library {
-    Array[File] sampleConfigs
-    String sampleId
-    String libraryId
+    input {
+    Library library
     String outputDir
-
-    # Get the readgroup configuration
-    call biopet.SampleConfig as readgroupConfigs {
-        input:
-            inputFiles = sampleConfigs,
-            sample = sampleId,
-            library = libraryId,
-            tsvOutputPath = libraryId + ".config.tsv"
     }
+
 
     # The jobs that are done per readgroup.
     # Modify readgroup.wdl to change what is happening per readgroup
-    scatter (readgroupId in readgroupConfigs.keys) {
-        if (readgroupId != "") {
-            call readgroup.readgroup as readgroup {
-                input:
-                    outputDir = outputDir + "/rg_" + readgroupId,
-                    sampleConfigs = sampleConfigs,
-                    readgroupId = readgroupId,
-                    libraryId = libraryId,
-                    sampleId = sampleId
-            }
+    scatter (readgroup in library.readgroups) {
+
+        call readgroup.readgroup as readgroup {
+            input:
+                outputDir = outputDir + "/rg_" + readgroup.id,
+                readgroup = readgroup
         }
+
     }
 
     # Add the jobs that are done per library and over the results of
     # all the readgroups below this line.
 
     output {
-        Array[String] readgroups = readgroupConfigs.keys
+
     }
 }

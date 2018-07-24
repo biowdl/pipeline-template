@@ -1,5 +1,4 @@
-version draft-3
-
+version 1.0
 # Copyright (c) 2018 Sequencing Analysis Support Core - Leiden University Medical Center
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,28 +19,36 @@ version draft-3
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import "tasks/biopet.wdl" as biopet
+import "samplesheet.wdl" as samplesheet
 
 workflow readgroup {
-    Array[File] sampleConfigs
-    String readgroupId
-    String libraryId
-    String sampleId
-    String outputDir
-
-    call biopet.SampleConfig as config {
+    input {
+        Readgroup readgroup
+        String outputDir
+    }
+    call echo {
         input:
-            inputFiles = sampleConfigs,
-            sample = sampleId,
-            library = libraryId,
-            readgroup = readgroupId,
-            tsvOutputPath = readgroupId + ".config.tsv"
+            r1 = readgroup.R1,
+            r2 = readgroup.R2,
+            id = readgroup.id
     }
 
     output {
-        File inputR1 = config.values.R1
-        File inputR2 = config.values.R2
+        File inputR1 = readgroup.R1
+        File inputR2 = readgroup.R2
     }
 
 }
 
+task echo {
+    input {
+        String r1
+        String r2
+        String id
+    }
+    command {
+        echo R1: ~{r1}
+        echo R2: ~{r2}
+        echo id: ~{id}
+    }
+}

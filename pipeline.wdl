@@ -21,8 +21,7 @@ version 1.0
 # SOFTWARE.
 
 import "sample.wdl" as sampleWorkflow
-import "tasks/biopet.wdl" as biopet
-import "samplesheet.wdl" as sampleSheet
+import "samplesheet.wdl" as samplesheet
 
 workflow pipeline {
     input {
@@ -30,19 +29,19 @@ workflow pipeline {
         String outputDir
     }
     #  Reading the samples from the sample config files
-    call biopet.SampleConfig as samplesConfigs {
+    call samplesheet.sampleConfigFileToStruct {
         input:
-            inputFiles = sampleConfigFiles
+            sampleConfigFile = sampleConfigFile
     }
+    Array[Sample] samples = sampleConfigFileToStruct.samples
 
     # Do the jobs that should be executed per sample.
     # Modify sample.wdl to change what is happening per sample
-    scatter (sampleId in samplesConfigs.keys) {
-        call sampleWorkflow.sample as sample {
+    scatter (sample in samples) {
+        call sampleWorkflow.sample as sampleTasks {
             input:
-                sampleConfigs = sampleConfigFiles,
-                sampleId = sampleId,
-                outputDir = outputDir + "/sample_" + sampleId
+                sample = sample,
+                outputDir = outputDir + "/sample_" + sample.id
         }
     }
 
@@ -50,7 +49,6 @@ workflow pipeline {
     # below this line.
 
     output {
-        Array[String] samples = samplesConfigs.keys
     }
 }
 
