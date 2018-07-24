@@ -54,14 +54,3 @@ workflow pipeline {
     }
 }
 
-task sampleConfigFileToStruct {
-    input {
-        File sampleConfigFile
-    }
-    command {
-        python3 <<CODE
-        import yaml
-
-    }
-    output
-}
