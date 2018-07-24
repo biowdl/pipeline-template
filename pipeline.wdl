@@ -25,7 +25,7 @@ import "samplesheet.wdl" as samplesheet
 
 workflow pipeline {
     input {
-        File sampleConfigFiles
+        Array[File] sampleConfigFiles
         String outputDir
     }
     #  Reading the samples from the sample config files
@@ -43,7 +43,7 @@ workflow pipeline {
         call sampleWorkflow.sample as sampleTasks {
             input:
                 sample = sample,
-                outputDir = outputDir + "/sample_" + sample.id
+                outputDir = outputDir + "/samples/" + sample.id
         }
     }
 

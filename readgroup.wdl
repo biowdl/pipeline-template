@@ -30,12 +30,14 @@ workflow readgroup {
         input:
             r1 = readgroup.R1,
             r2 = readgroup.R2,
-            id = readgroup.id
+            id = readgroup.id,
+            outputFile = outputDir + "/echo.out"
     }
 
     output {
         File inputR1 = readgroup.R1
         File? inputR2 = readgroup.R2
+        File out = echo.out
     }
 
 }
@@ -45,10 +47,16 @@ task echo {
         String r1
         String? r2
         String id
+        String outputFile = "echo.out"
     }
     command {
-        echo R1: ~{r1}
-        echo R2: ~{r2}
-        echo id: ~{id}
+        mkdir -p $(dirname ~{outputFile})
+        echo R1: ~{r1} > ~{outputFile}
+        echo R2: ~{r2} >> ~{outputFile}
+        echo id: ~{id} >> ~{outputFile}
+    }
+
+    output {
+        File out = outputFile
     }
 }

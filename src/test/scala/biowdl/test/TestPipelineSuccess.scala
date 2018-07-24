@@ -25,24 +25,4 @@ import java.io.File
 
 import nl.biopet.utils.biowdl.PipelineSuccess
 
-trait TestPipelineSuccess extends TestPipeline with PipelineSuccess {
-  addMustHaveFile("echo.out")
-  samples.values.foreach { sample =>
-    new File(sampleDir(sample), sample.name + ".txt")
-    addMustHaveFile("samples", sample.name, sample.name + ".txt")
-  }
-
-  samples.flatMap(_._2.libraries).values.foreach { library =>
-    addMustHaveFile(
-      new File(libraryDir(library),
-               library.sample + "-" + library.library + ".txt"))
-  }
-
-  samples.flatMap(_._2.libraries).flatMap(_._2.readgroups).values.foreach {
-    readgroup =>
-      addMustHaveFile(new File(
-        readgroupDir(readgroup),
-        readgroup.sample + "-" + readgroup.library + "-" + readgroup.readgroup + ".txt"))
-  }
-
-}
+trait TestPipelineSuccess extends TestPipeline with PipelineSuccess {}
