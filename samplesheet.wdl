@@ -1,5 +1,5 @@
 version 1.0
-struct ReadGroup {
+struct Readgroup {
     String id
     File R1
     File? R2
@@ -7,7 +7,7 @@ struct ReadGroup {
 
 struct Library {
     String id
-    Array[ReadGroup]+ readgroups
+    Array[Readgroup]+ readgroups
 }
 
 struct Sample {

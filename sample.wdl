@@ -32,7 +32,7 @@ workflow sample {
     # Do the work per library.
     # Modify library.wdl to change what is happening per library.
     scatter (library in sample.libraries) {
-        call libraryWorkflow.library as library {
+        call libraryWorkflow.library as libraryWorkflow {
             input:
                 outputDir = outputDir + "/lib_" + library.id,
                 library = library

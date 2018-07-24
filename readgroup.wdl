@@ -35,7 +35,7 @@ workflow readgroup {
 
     output {
         File inputR1 = readgroup.R1
-        File inputR2 = readgroup.R2
+        File? inputR2 = readgroup.R2
     }
 
 }
@@ -43,7 +43,7 @@ workflow readgroup {
 task echo {
     input {
         String r1
-        String r2
+        String? r2
         String id
     }
     command {

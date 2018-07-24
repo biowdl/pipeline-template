@@ -20,7 +20,7 @@ version 1.0
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import "readgroup.wdl" as readgroup
+import "readgroup.wdl" as readgroupWorkflow
 import "samplesheet.wdl" as samplesheet
 
 workflow library {
@@ -34,7 +34,7 @@ workflow library {
     # Modify readgroup.wdl to change what is happening per readgroup
     scatter (readgroup in library.readgroups) {
 
-        call readgroup.readgroup as readgroup {
+        call readgroupWorkflow.readgroup as readgroupWorkflow {
             input:
                 outputDir = outputDir + "/rg_" + readgroup.id,
                 readgroup = readgroup
