@@ -18,7 +18,7 @@ struct Sample {
 task sampleConfigFileToStruct {
     input {
         File sampleConfigFile
-        File outputJson = "output.json"
+        String outputJson = "output.json"
     }
     command {
         python3 <<CODE
