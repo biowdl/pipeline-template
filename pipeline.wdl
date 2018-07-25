@@ -28,13 +28,15 @@ workflow pipeline {
         Array[File] sampleConfigFiles
         String outputDir
     }
+
     #  Reading the samples from the sample config files
     scatter (sampleConfigFile in sampleConfigFiles) {
         call samplesheet.sampleConfigFileToStruct {
-        input:
-            sampleConfigFile = sampleConfigFile
+            input:
+                sampleConfigFile = sampleConfigFile
         }
     }
+
     Array[Sample] samples = flatten(sampleConfigFileToStruct.samples)
 
     # Do the jobs that should be executed per sample.
@@ -51,6 +53,7 @@ workflow pipeline {
     # below this line.
 
     output {
+        # INSERT OUTPUTS HERE
     }
 }
 

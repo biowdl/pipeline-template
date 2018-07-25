@@ -41,5 +41,7 @@ workflow sample {
 
     # Do the per sample work and the work over all the library
     # results below this line.
-
+    output {
+        # INSERT OUTPUTS HERE
+    }
 }

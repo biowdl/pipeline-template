@@ -25,15 +25,13 @@ import "samplesheet.wdl" as samplesheet
 
 workflow library {
     input {
-    Library library
-    String outputDir
+        Library library
+        String outputDir
     }
-
 
     # The jobs that are done per readgroup.
     # Modify readgroup.wdl to change what is happening per readgroup
     scatter (readgroup in library.readgroups) {
-
         call readgroupWorkflow.readgroup as readgroupWorkflow {
             input:
                 outputDir = outputDir + "/rg_" + readgroup.id,
@@ -46,6 +44,6 @@ workflow library {
     # all the readgroups below this line.
 
     output {
-
+        # INSERT OUTPUTS HERE
     }
 }

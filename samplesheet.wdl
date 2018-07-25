@@ -20,6 +20,7 @@ task sampleConfigFileToStruct {
         File sampleConfigFile
         String outputJson = "output.json"
     }
+
     command {
         python3 <<CODE
 
@@ -55,6 +56,7 @@ task sampleConfigFileToStruct {
 
         CODE
     }
+
     output {
         Map[String,Array[Sample]] map = read_json(outputJson)
         Array[Sample] samples = map["samples"]

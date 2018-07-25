@@ -26,6 +26,7 @@ workflow readgroup {
         Readgroup readgroup
         String outputDir
     }
+
     call echo {
         input:
             r1 = readgroup.R1,
@@ -42,6 +43,7 @@ workflow readgroup {
 
 }
 
+# BELOW IS A MOCK TASK IN ORDER TO TEST THE PIPELINE THIS CAN BE REMOVED.
 task echo {
     input {
         String r1
@@ -49,6 +51,7 @@ task echo {
         String id
         String outputFile = "echo.out"
     }
+
     command {
         mkdir -p $(dirname ~{outputFile})
         echo R1: ~{r1} > ~{outputFile}
