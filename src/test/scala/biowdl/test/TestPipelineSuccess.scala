@@ -25,4 +25,4 @@ import java.io.File
 
 import nl.biopet.utils.biowdl.PipelineSuccess
 
-trait TestPipelineSuccess extends TestPipeline with PipelineSuccess {}
+trait TestPipelineSuccess extends TestPipeline with PipelineSuccess

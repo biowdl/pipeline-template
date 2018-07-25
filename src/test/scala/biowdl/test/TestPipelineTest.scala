@@ -21,4 +21,4 @@
 
 package biowdl.test
 
-class TestPipelineTest extends TestPipelineSuccess {}
+class TestPipelineTest extends TestPipelineSuccess
