@@ -21,7 +21,7 @@ version 1.0
 # SOFTWARE.
 
 import "readgroup.wdl" as readgroupWorkflow
-import "samplesheet.wdl" as samplesheet
+import "tasks/samplesheet.wdl" as samplesheet
 
 workflow library {
     input {

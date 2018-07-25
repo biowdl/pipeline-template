@@ -21,7 +21,7 @@ version 1.0
 # SOFTWARE.
 
 import "library.wdl" as libraryWorkflow
-import "samplesheet.wdl" as samplesheet
+import "tasks/samplesheet.wdl" as samplesheet
 
 workflow sample {
     input {

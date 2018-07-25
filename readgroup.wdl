@@ -19,7 +19,7 @@ version 1.0
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import "samplesheet.wdl" as samplesheet
+import "tasks/samplesheet.wdl" as samplesheet
 
 workflow readgroup {
     input {

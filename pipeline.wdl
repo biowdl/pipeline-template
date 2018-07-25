@@ -21,7 +21,7 @@ version 1.0
 # SOFTWARE.
 
 import "sample.wdl" as sampleWorkflow
-import "samplesheet.wdl" as samplesheet
+import "tasks/samplesheet.wdl" as samplesheet
 
 workflow pipeline {
     input {
