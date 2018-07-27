@@ -1,8 +1,8 @@
 organization := "com.github.biopet"
 organizationName := "Biowdl"
-name := "test"
+name := "pipeline-template"
 
-biopetUrlName := "test"
+biopetUrlName := "pipeline-template"
 
 startYear := Some(2018)
 
