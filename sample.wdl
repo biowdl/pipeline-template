@@ -1,3 +1,5 @@
+version 1.0
+
 # Copyright (c) 2018 Sequencing Analysis Support Core - Leiden University Medical Center
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,41 +21,27 @@
 # SOFTWARE.
 
 import "library.wdl" as libraryWorkflow
-import "tasks/biopet.wdl" as biopet
+import "tasks/samplesheet.wdl" as samplesheet
 
 workflow sample {
-    Array[File] sampleConfigs
-    String sampleId
-    String outputDir
-
-    # Get the library configuration
-    call biopet.SampleConfig as librariesConfigs {
-        input:
-            inputFiles = sampleConfigs,
-            sample = sampleId,
-            jsonOutputPath = outputDir + "/" + sampleId + ".config.json",
-            tsvOutputPath = outputDir + "/" + sampleId + ".config.tsv",
-            keyFilePath = outputDir + "/" + sampleId + ".config.keys"
+    input {
+        Sample sample
+        String outputDir
     }
 
     # Do the work per library.
     # Modify library.wdl to change what is happening per library.
-    scatter (libraryId in read_lines(librariesConfigs.keysFile)) {
-        if (libraryId != "") {
-            call libraryWorkflow.library as library {
-                input:
-                    outputDir = outputDir + "/lib_" + libraryId,
-                    sampleConfigs = sampleConfigs,
-                    libraryId = libraryId,
-                    sampleId = sampleId
+    scatter (library in sample.libraries) {
+        call libraryWorkflow.library as libraryWorkflow {
+            input:
+                outputDir = outputDir + "/lib_" + library.id,
+                library = library
             }
         }
-    }
 
     # Do the per sample work and the work over all the library
     # results below this line.
-
     output {
-        Array[String] libraries = read_lines(librariesConfigs.keysFile)
+        # INSERT OUTPUTS HERE
     }
 }

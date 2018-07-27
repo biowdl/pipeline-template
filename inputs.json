@@ -1,8 +1,4 @@
 {
-  "pipeline.sampleConfigFiles": ["samples.example.yaml"],
-  "pipeline.outputDir": "pipeline_output",
-  "pipeline.samplesConfigs.tool_jar": "SampleConfig-assembly-0.1.jar",
-  "pipeline.sample.librariesConfigs.tool_jar": "SampleConfig-assembly-0.1.jar",
-  "pipeline.sample.library.readgroups.tool_jar": "SampleConfig-assembly-0.1.jar",
-  "pipeline.sample.library.readgroup.config.tool_jar": "SampleConfig-assembly-0.1.jar"
+  "pipeline.sampleConfigFile": "samples.example.yml",
+  "pipeline.outputDir": "pipeline_output"
 }

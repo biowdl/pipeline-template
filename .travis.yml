@@ -1,7 +1,7 @@
 language: java
 
 env:
-  - CROMWELL_VERSION=31
+  - CROMWELL_VERSION=34
 
 script:
   - set -e

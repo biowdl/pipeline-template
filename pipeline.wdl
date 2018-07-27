@@ -1,3 +1,5 @@
+version 1.0
+
 # Copyright (c) 2018 Sequencing Analysis Support Core - Leiden University Medical Center
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,27 +21,31 @@
 # SOFTWARE.
 
 import "sample.wdl" as sampleWorkflow
-import "tasks/biopet.wdl" as biopet
+import "tasks/samplesheet.wdl" as samplesheet
 
 workflow pipeline {
-    Array[File] sampleConfigFiles
-    String outputDir
+    input {
+        Array[File] sampleConfigFiles
+        String outputDir
+    }
 
     #  Reading the samples from the sample config files
-    call biopet.SampleConfig as samplesConfigs {
-        input:
-            inputFiles = sampleConfigFiles,
-            keyFilePath = outputDir + "/condif.keys"
+    scatter (sampleConfigFile in sampleConfigFiles) {
+        call samplesheet.sampleConfigFileToStruct {
+            input:
+                sampleConfigFile = sampleConfigFile
+        }
     }
+
+    Array[Sample] samples = flatten(sampleConfigFileToStruct.samples)
 
     # Do the jobs that should be executed per sample.
     # Modify sample.wdl to change what is happening per sample
-    scatter (sampleId in read_lines(samplesConfigs.keysFile)) {
-        call sampleWorkflow.sample as sample {
+    scatter (sample in samples) {
+        call sampleWorkflow.sample as sampleTasks {
             input:
-                sampleConfigs = sampleConfigFiles,
-                sampleId = sampleId,
-                outputDir = outputDir + "/sample_" + sampleId
+                sample = sample,
+                outputDir = outputDir + "/samples/" + sample.id
         }
     }
 
@@ -47,6 +53,7 @@ workflow pipeline {
     # below this line.
 
     output {
-        Array[String] samples = read_lines(samplesConfigs.keysFile)
+        # INSERT OUTPUTS HERE
     }
 }
+

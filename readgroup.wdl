@@ -1,3 +1,4 @@
+version 1.0
 # Copyright (c) 2018 Sequencing Analysis Support Core - Leiden University Medical Center
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -18,33 +19,47 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import "tasks/biopet.wdl" as biopet
+import "tasks/samplesheet.wdl" as samplesheet
 
 workflow readgroup {
-    Array[File] sampleConfigs
-    String readgroupId
-    String libraryId
-    String sampleId
-    String outputDir
-
-    call biopet.SampleConfig as config {
-        input:
-            inputFiles = sampleConfigs,
-            sample = sampleId,
-            library = libraryId,
-            readgroup = readgroupId,
-            tsvOutputPath = outputDir + "/" + readgroupId + ".config.tsv",
-            keyFilePath = outputDir + "/" + readgroupId + ".config.keys"
+    input {
+        Readgroup readgroup
+        String outputDir
     }
 
-    Object configValues = if (defined(config.tsvOutput) && size(config.tsvOutput) > 0)
-        then read_map(config.tsvOutput)
-        else { "": "" }
+    call echo {
+        input:
+            r1 = readgroup.R1,
+            r2 = readgroup.R2,
+            id = readgroup.id,
+            outputFile = outputDir + "/echo.out"
+    }
 
     output {
-        File inputR1 = configValues.R1
-        File inputR2 = configValues.R2
+        File inputR1 = readgroup.R1
+        File? inputR2 = readgroup.R2
+        File out = echo.out
     }
 
 }
 
+# BELOW IS A MOCK TASK IN ORDER TO TEST THE PIPELINE THIS CAN BE REMOVED.
+task echo {
+    input {
+        String r1
+        String? r2
+        String id
+        String outputFile = "echo.out"
+    }
+
+    command {
+        mkdir -p $(dirname ~{outputFile})
+        echo R1: ~{r1} > ~{outputFile}
+        echo R2: ~{r2} >> ~{outputFile}
+        echo id: ~{id} >> ~{outputFile}
+    }
+
+    output {
+        File out = outputFile
+    }
+}

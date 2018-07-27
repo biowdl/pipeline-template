@@ -1,3 +1,5 @@
+version 1.0
+
 # Copyright (c) 2018 Sequencing Analysis Support Core - Leiden University Medical Center
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -18,44 +20,30 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import "readgroup.wdl" as readgroup
-import "tasks/biopet.wdl" as biopet
+import "readgroup.wdl" as readgroupWorkflow
+import "tasks/samplesheet.wdl" as samplesheet
 
 workflow library {
-    Array[File] sampleConfigs
-    String sampleId
-    String libraryId
-    String outputDir
-
-    # Get the readgroup configuration
-    call biopet.SampleConfig as readgroupConfigs {
-        input:
-            inputFiles = sampleConfigs,
-            sample = sampleId,
-            library = libraryId,
-            tsvOutputPath = outputDir + "/" + libraryId + ".config.tsv",
-            keyFilePath = outputDir + "/" + libraryId + ".config.keys"
+    input {
+        Library library
+        String outputDir
     }
 
     # The jobs that are done per readgroup.
     # Modify readgroup.wdl to change what is happening per readgroup
-    scatter (readgroupId in read_line(readgroupConfigs.keysFile)) {
-        if (readgroupId != "") {
-            call readgroup.readgroup as readgroup {
-                input:
-                    outputDir = outputDir + "/rg_" + readgroupId,
-                    sampleConfigs = sampleConfigs,
-                    readgroupId = readgroupId,
-                    libraryId = libraryId,
-                    sampleId = sampleId
-            }
+    scatter (readgroup in library.readgroups) {
+        call readgroupWorkflow.readgroup as readgroupWorkflow {
+            input:
+                outputDir = outputDir + "/rg_" + readgroup.id,
+                readgroup = readgroup
         }
+
     }
 
     # Add the jobs that are done per library and over the results of
     # all the readgroups below this line.
 
     output {
-        Array[String] readgroups = read_lines(readgroupConfigs.keysFile)
+        # INSERT OUTPUTS HERE
     }
 }
