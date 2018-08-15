@@ -1,5 +1,3 @@
-version 1.0
-
 # Copyright (c) 2018 Sequencing Analysis Support Core - Leiden University Medical Center
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,14 +18,18 @@ version 1.0
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+version 1.0
+
 import "sample.wdl" as sampleWorkflow
-import "tasks/samplesheet.wdl" as samplesheet
+import "structs.wdl" as structs
 
 workflow pipeline {
     input {
         Array[File] sampleConfigFiles
         String outputDir
     }
+
+    structs.Root config = read_object(select_first(sampleConfigFiles))
 
     #  Reading the samples from the sample config files
     scatter (sampleConfigFile in sampleConfigFiles) {
