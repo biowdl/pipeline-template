@@ -1,18 +1,21 @@
 version 1.0
 
 struct Readgroup {
+    String id
     File R1
     File? R2
 }
 
 struct Library {
-    Map[String, Readgroup] readgroups
+    String id
+    Array[Readgroup] readgroups
 }
 
 struct Sample {
-    Map[String, Library] libraries
+    String id
+    Array[Library] libraries
 }
 
 struct Root {
-    Map[String, Sample] samples
+    Array[Sample] samples
 }
