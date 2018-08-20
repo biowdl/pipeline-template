@@ -31,9 +31,9 @@ workflow pipeline {
     }
 
     call biopet.SampleConfigCromwellArrays as configFile {
-      input:
-        inputFiles = sampleConfigFiles,
-        outputPath = "samples.json"
+        input:
+            inputFiles = sampleConfigFiles,
+            outputPath = "samples.json"
     }
 
     Root config = read_json(configFile.outputFile)
