@@ -33,8 +33,7 @@ workflow pipeline {
     call biopet.SampleConfigCromwellArrays as configFile {
       input:
         inputFiles = sampleConfigFiles,
-        outputPath = "samples.json",
-        toolJar = "/home/pjvan_thof/src/biopet-root/tools/sampleconfig/target/scala-2.11/SampleConfig-assembly-0.2-SNAPSHOT.jar"
+        outputPath = "samples.json"
     }
 
     Root config = read_json(configFile.outputFile)
