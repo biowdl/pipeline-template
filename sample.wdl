@@ -21,7 +21,7 @@ version 1.0
 # SOFTWARE.
 
 import "library.wdl" as libraryWorkflow
-import "tasks/samplesheet.wdl" as samplesheet
+import "structs.wdl" as structs
 
 workflow sample {
     input {

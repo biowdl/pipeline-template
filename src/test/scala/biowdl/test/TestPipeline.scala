@@ -36,5 +36,5 @@ trait TestPipeline
         s"$startPipelineName.outputDir" -> outputDir.getAbsolutePath
       )
 
-  def startFile: File = new File("./pipeline.wdl")
+  def startFile: File = new File("pipeline.wdl")
 }
