@@ -22,6 +22,7 @@ version 1.0
 
 import "sample.wdl" as sampleWorkflow
 import "structs.wdl" as structs
+import "tasks/biopet.wdl" as biopet
 
 workflow pipeline {
     input {
@@ -29,27 +30,34 @@ workflow pipeline {
         String outputDir
     }
 
-    structs.Root config = read_object(select_first(sampleConfigFiles))
-
-    #  Reading the samples from the sample config files
-    scatter (sampleConfigFile in sampleConfigFiles) {
-        call samplesheet.sampleConfigFileToStruct {
-            input:
-                sampleConfigFile = sampleConfigFile
-        }
+    call biopet.SampleConfigCromwellArrays as configFile {
+      input:
+        inputFiles = sampleConfigFiles,
+        outputPath = "samples.json",
+        toolJar = " /Users/pjvanthof/src/biopet-root/tools/sampleconfig/target/scala-2.11/SampleConfig-assembly-0.2-SNAPSHOT.jar"
     }
 
-    Array[Sample] samples = flatten(sampleConfigFileToStruct.samples)
+    Root config = read_json(configFile.outputFile)
+
+    #  Reading the samples from the sample config files
+#    scatter (sampleConfigFile in sampleConfigFiles) {
+#        call samplesheet.sampleConfigFileToStruct {
+#            input:
+#                sampleConfigFile = sampleConfigFile
+#        }
+#    }
+
+#    Array[Sample] samples = flatten(sampleConfigFileToStruct.samples)
 
     # Do the jobs that should be executed per sample.
     # Modify sample.wdl to change what is happening per sample
-    scatter (sample in samples) {
-        call sampleWorkflow.sample as sampleTasks {
-            input:
-                sample = sample,
-                outputDir = outputDir + "/samples/" + sample.id
-        }
-    }
+#    scatter (sample in samples) {
+#        call sampleWorkflow.sample as sampleTasks {
+#            input:
+#                sample = sample,
+#                outputDir = outputDir + "/samples/" + sample.id
+#        }
+#    }
 
     # Put the jobs that need to be done over the result of all samples
     # below this line.

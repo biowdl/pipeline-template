@@ -21,7 +21,7 @@ version 1.0
 # SOFTWARE.
 
 import "readgroup.wdl" as readgroupWorkflow
-import "tasks/samplesheet.wdl" as samplesheet
+import "structs.wdl" as structs
 
 workflow library {
     input {
