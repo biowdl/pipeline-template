@@ -27,11 +27,9 @@ workflow readgroup {
         String outputDir
     }
 
-    call echo {
+    call Echo as echo {
         input:
-            r1 = readgroup.R1,
-            r2 = readgroup.R2,
-            id = readgroup.id,
+            text = readgroup.R1 + readgroup.R2 + readgroup.id,
             outputFile = outputDir + "/echo.out"
     }
 
@@ -44,19 +42,15 @@ workflow readgroup {
 }
 
 # BELOW IS A MOCK TASK IN ORDER TO TEST THE PIPELINE THIS CAN BE REMOVED.
-task echo {
+task Echo {
     input {
-        String r1
-        String? r2
-        String id
-        String outputFile = "echo.out"
+        String text
+        String outputFile
     }
 
     command {
         mkdir -p $(dirname ~{outputFile})
-        echo R1: ~{r1} > ~{outputFile}
-        echo R2: ~{r2} >> ~{outputFile}
-        echo id: ~{id} >> ~{outputFile}
+        echo ~{text} > ~{outputFile}
     }
 
     output {
