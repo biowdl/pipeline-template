@@ -29,7 +29,7 @@ workflow readgroup {
 
     call Echo as echo {
         input:
-            text = readgroup.R1 + readgroup.R2 + readgroup.id,
+            text = "" + readgroup.R1 + readgroup.R2 + readgroup.id,
             outputFile = outputDir + "/echo.out"
     }
 
