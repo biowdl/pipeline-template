@@ -29,15 +29,15 @@ workflow readgroup {
 
     call echo {
         input:
-            r1 = readgroup.R1,
-            r2 = readgroup.R2,
+            r1 = readgroup.reads.R1,
+            r2 = readgroup.reads.R2,
             id = readgroup.id,
             outputFile = outputDir + "/echo.out"
     }
 
     output {
-        File inputR1 = readgroup.R1
-        File? inputR2 = readgroup.R2
+        File inputR1 = readgroup.reads.R1
+        File? inputR2 = readgroup.reads.R2
         File out = echo.out
     }
 

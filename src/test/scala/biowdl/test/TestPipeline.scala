@@ -24,12 +24,8 @@ package biowdl.test
 import java.io.File
 
 import nl.biopet.utils.biowdl.multisample.MultisamplePipeline
-import nl.biopet.utils.biowdl.samples.{Wgs1PairedEnd, Wgs2PairedEnd}
 
-trait TestPipeline
-    extends MultisamplePipeline
-    with Wgs1PairedEnd
-    with Wgs2PairedEnd {
+trait TestPipeline extends MultisamplePipeline {
   override def inputs: Map[String, Any] =
     super.inputs ++
       Map(
