@@ -16,15 +16,15 @@ pipeline {
         DEFAULT_INTEGRATION_TESTS = credentials('integration-tests')
     }
     parameters {
-        string name: 'CROMWELL_JAR', defaultValue: ''
-        string name: CROMWELL_CONFIG, defaultValue: ''
-        string name: CROMWELL_BACKEND, defaultValue: ''
-        string name: FIXTURE_DIR, defaultValue: ''
-        string name: CONDA_PREFIX, defaultValue: ''
-        string name: THREADS, defaultValue: ''
-        string name: OUTPUT_DIR, defaultValue: ''
-        string name: FUNCTIONAL_TESTS, defaultValue: ''
-        string name: INTEGRATION_TESTS, defaultValue: ''
+        string name: 'CROMWELL_JAR', defaultValue: env.DEFAULT_CROMWELL_JAR
+        string name: 'CROMWELL_CONFIG', defaultValue: env.DEFAULT_CROMWELL_CONFIG
+        string name: 'CROMWELL_BACKEND', defaultValue: env.DEFAULT_CROMWELL_BACKEND
+        string name: 'FIXTURE_DIR', defaultValue: env.DEFAULT_FIXTURE_DIR
+        string name: 'CONDA_PREFIX', defaultValue: env.DEFAULT_CONDA_PREFIX
+        string name: 'THREADS', defaultValue: env.DEFAULT_THREADS
+        string name: 'OUTPUT_DIR', defaultValue: env.DEFAULT_OUTPUT_DIR
+        string name: 'FUNCTIONAL_TESTS', defaultValue: env.DEFAULT_FUNCTIONAL_TESTS
+        string name: 'INTEGRATION_TESTS', defaultValue: env.DEFAULT_INTEGRATION_TESTS
     }
     tools {
         jdk 'JDK 8u162'
