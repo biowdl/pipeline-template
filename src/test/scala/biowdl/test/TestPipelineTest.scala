@@ -21,4 +21,9 @@
 
 package biowdl.test
 
-class TestPipelineTest extends TestPipelineSuccess
+import nl.biopet.utils.biowdl.samples.{Wgs1PairedEnd, Wgs2PairedEnd}
+
+class TestPipelineTest
+    extends TestPipelineSuccess
+    with Wgs1PairedEnd
+    with Wgs2PairedEnd

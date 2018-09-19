@@ -22,7 +22,7 @@ version 1.0
 
 import "sample.wdl" as sampleWorkflow
 import "structs.wdl" as structs
-import "tasks/biopet.wdl" as biopet
+import "tasks/biopet/sampleconfig.wdl" as biopet
 
 workflow pipeline {
     input {
