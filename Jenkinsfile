@@ -16,15 +16,15 @@ pipeline {
         DEFAULT_INTEGRATION_TESTS = credentials('integration-tests')
     }
     parameters {
-        string name: 'CROMWELL_JAR', defaultValue: env.DEFAULT_CROMWELL_JAR
-        string name: 'CROMWELL_CONFIG', defaultValue: env.DEFAULT_CROMWELL_CONFIG
-        string name: 'CROMWELL_BACKEND', defaultValue: env.DEFAULT_CROMWELL_BACKEND
-        string name: 'FIXTURE_DIR', defaultValue: env.DEFAULT_FIXTURE_DIR
-        string name: 'CONDA_PREFIX', defaultValue: env.DEFAULT_CONDA_PREFIX
-        string name: 'THREADS', defaultValue: env.DEFAULT_THREADS
-        string name: 'OUTPUT_DIR', defaultValue: env.DEFAULT_OUTPUT_DIR
-        string name: 'FUNCTIONAL_TESTS', defaultValue: env.DEFAULT_FUNCTIONAL_TESTS
-        string name: 'INTEGRATION_TESTS', defaultValue: env.DEFAULT_INTEGRATION_TESTS
+        string name: 'CROMWELL_JAR', defaultValue: '$DEFAULT_CROMWELL_JAR'
+        string name: 'CROMWELL_CONFIG', defaultValue: '$DEFAULT_CROMWELL_CONFIG'
+        string name: 'CROMWELL_BACKEND', defaultValue: '$DEFAULT_CROMWELL_BACKEND'
+        string name: 'FIXTURE_DIR', defaultValue: '$DEFAULT_FIXTURE_DIR'
+        string name: 'CONDA_PREFIX', defaultValue: '$DEFAULT_CONDA_PREFIX'
+        string name: 'THREADS', defaultValue: '$DEFAULT_THREADS'
+        string name: 'OUTPUT_DIR', defaultValue: '$DEFAULT_OUTPUT_DIR'
+        string name: 'FUNCTIONAL_TESTS', defaultValue: '$DEFAULT_FUNCTIONAL_TESTS'
+        string name: 'INTEGRATION_TESTS', defaultValue: '$DEFAULT_INTEGRATION_TESTS'
     }
     tools {
         jdk 'JDK 8u162'
