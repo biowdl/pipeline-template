@@ -4,19 +4,19 @@ pipeline {
             label 'local'
         }
     }
+    parameters {
+        string name: 'CROMWELL_JAR', defaultValue: credentials('cromwell-jar')
+        string name: 'CROMWELL_CONFIG', defaultValue: credentials('cromwell-config')
+        string name: 'CROMWELL_BACKEND', defaultValue: credentials('cromwell-backend')
+        string name: 'FIXTURE_DIR', defaultValue: credentials('fixture-dir')
+        string name: 'CONDA_PREFIX', defaultValue: credentials('conda-prefix')
+        string name: 'THREADS', defaultValue: credentials('threads')
+        string name: 'OUTPUT_DIR', defaultValue: credentials('output-dir')
+        string name: 'FUNCTIONAL_TESTS', defaultValue: credentials('functional-tests')
+        string name: 'INTEGRATION_TESTS', defaultValue: credentials('integration-tests')
+    }
     tools {
         jdk 'JDK 8u162'
-    }
-    environment {
-        CROMWELL_JAR      = credentials('cromwell-jar')
-        CROMWELL_CONFIG   = credentials('cromwell-config')
-        CROMWELL_BACKEND  = credentials('cromwell-backend')
-        FIXTURE_DIR       = credentials('fixture-dir')
-        CONDA_PREFIX      = credentials('conda-prefix')
-        THREADS           = credentials('threads')
-        OUTPUT_DIR        = credentials('output-dir')
-        FUNCTIONAL_TESTS  = credentials('functional-tests')
-        INTEGRATION_TESTS = credentials('integration-tests')
     }
     stages {
         stage('Init') {
