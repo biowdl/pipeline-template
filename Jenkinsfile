@@ -4,16 +4,27 @@ pipeline {
             label 'local'
         }
     }
+    environment {
+        DEFAULT_CROMWELL_JAR      = credentials('cromwell-jar')
+        DEFAULT_CROMWELL_CONFIG   = credentials('cromwell-config')
+        DEFAULT_CROMWELL_BACKEND  = credentials('cromwell-backend')
+        DEFAULT_FIXTURE_DIR       = credentials('fixture-dir')
+        DEFAULT_CONDA_PREFIX      = credentials('conda-prefix')
+        DEFAULT_THREADS           = credentials('threads')
+        DEFAULT_OUTPUT_DIR        = credentials('output-dir')
+        DEFAULT_FUNCTIONAL_TESTS  = credentials('functional-tests')
+        DEFAULT_INTEGRATION_TESTS = credentials('integration-tests')
+    }
     parameters {
-        string name: 'CROMWELL_JAR'
-        string name: 'CROMWELL_CONFIG'
-        string name: 'CROMWELL_BACKEND'
-        string name: 'FIXTURE_DIR'
-        string name: 'CONDA_PREFIX'
-        string name: 'THREADS'
-        string name: 'OUTPUT_DIR'
-        string name: 'FUNCTIONAL_TESTS'
-        string name: 'INTEGRATION_TESTS'
+        string name: 'CROMWELL_JAR', defaultValue: $DEFAULT_CROMWELL_JAR
+        string name: 'CROMWELL_CONFIG', defaultValue: $DEFAULT_CROMWELL_CONFIG
+        string name: 'CROMWELL_BACKEND', defaultValue: $DEFAULT_CROMWELL_BACKEND
+        string name: 'FIXTURE_DIR', defaultValue: $DEFAULT_FIXTURE_DIR
+        string name: 'CONDA_PREFIX', defaultValue: $DEFAULT_CONDA_PREFIX
+        string name: 'THREADS', defaultValue: $DEFAULT_THREADS
+        string name: 'OUTPUT_DIR', defaultValue: $DEFAULT_OUTPUT_DIR
+        string name: 'FUNCTIONAL_TESTS', defaultValue: $DEFAULT_FUNCTIONAL_TESTS
+        string name: 'INTEGRATION_TESTS', defaultValue: $DEFAULT_INTEGRATION_TESTS
     }
     tools {
         jdk 'JDK 8u162'
