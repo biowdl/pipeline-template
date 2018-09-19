@@ -5,15 +5,15 @@ pipeline {
         }
     }
     parameters {
-        string name: 'CROMWELL_JAR', defaultValue: '' + credentials('cromwell-jar')
-        string name: 'CROMWELL_CONFIG', defaultValue: '' + credentials('cromwell-config')
-        string name: 'CROMWELL_BACKEND', defaultValue: '' + credentials('cromwell-backend')
-        string name: 'FIXTURE_DIR', defaultValue: '' + credentials('fixture-dir')
-        string name: 'CONDA_PREFIX', defaultValue: '' + credentials('conda-prefix')
-        string name: 'THREADS', defaultValue: '' + credentials('threads')
-        string name: 'OUTPUT_DIR', defaultValue: '' + credentials('output-dir')
-        string name: 'FUNCTIONAL_TESTS', defaultValue: '' + credentials('functional-tests')
-        string name: 'INTEGRATION_TESTS', defaultValue: '' + credentials('integration-tests')
+        string name: 'CROMWELL_JAR'
+        string name: 'CROMWELL_CONFIG'
+        string name: 'CROMWELL_BACKEND'
+        string name: 'FIXTURE_DIR'
+        string name: 'CONDA_PREFIX'
+        string name: 'THREADS'
+        string name: 'OUTPUT_DIR'
+        string name: 'FUNCTIONAL_TESTS'
+        string name: 'INTEGRATION_TESTS'
     }
     tools {
         jdk 'JDK 8u162'
