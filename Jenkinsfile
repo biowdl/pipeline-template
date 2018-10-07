@@ -24,8 +24,7 @@ pipeline {
                 script {
                     params.each { key, value ->
                         if (value == '${DEFAULT}') {
-                            configFileProvider(
-                                    [configFile(fileId: key, variable: 'FILE')]) {
+                            configFileProvider([configFile(fileId: key, variable: 'FILE')]) {
                                 script {
                                     env.('' + key)=sh(returnStdout: true, script: 'cat $FILE')
                                 }
