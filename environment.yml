@@ -1,4 +1,4 @@
-name: multsample
+name: pipeline-template
 channels:
   - bioconda
   - conda-forge
