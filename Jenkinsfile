@@ -41,8 +41,8 @@ pipeline {
                     env.outputDir= "${env.OUTPUT_DIR}/${env.JOB_NAME}/${env.BUILD_NUMBER}"
                     env.condaEnv= "${outputDir}/conda_env"
                     env.sbt= "${sbtHome}/bin/sbt -Dbiowdl.functionalTests=${env.FUNCTIONAL_TESTS} -Dbiowdl.integrationTests=${env.INTEGRATION_TESTS} -Dbiowdl.outputDir=${outputDir} -Dcromwell.jar=${env.CROMWELL_JAR} -Dcromwell.config=${env.CROMWELL_CONFIG} -Dcromwell.extraOptions=-Dbackend.providers.${env.CROMWELL_BACKEND}.config.root=${outputDir}/cromwell-executions -Dbiowdl.fixtureDir=${env.FIXTURE_DIR} -Dbiowdl.threads=${env.THREADS} -no-colors -batch"
-                    env.activateEnv= "source ${env.CONDA_PREFIX}/activate \$(readlink -f ${condaEnv})"
-                    env.createEnv= "${env.CONDA_PREFIX}/conda-env create -f environment.yml -p ${condaEnv}"
+                    env.activateEnv= "source ${env.CONDA_PREFIX}/bin/activate \$(readlink -f ${condaEnv})"
+                    env.createEnv= "${env.CONDA_PREFIX}/bin/conda-env create -f environment.yml -p ${condaEnv}"
                 }
                 sh "rm -rf ${outputDir}"
                 sh "mkdir -p ${outputDir}"
