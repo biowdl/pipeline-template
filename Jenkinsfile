@@ -39,10 +39,7 @@ pipeline {
                 script {
                     def sbtHome = tool 'sbt 1.0.4'
                     env.outputDir= "${env.OUTPUT_DIR}/${env.JOB_NAME}/${env.BUILD_NUMBER}"
-                    env.condaEnv= "${outputDir}/conda_env"
                     env.sbt= "${sbtHome}/bin/sbt -Dbiowdl.functionalTests=${env.FUNCTIONAL_TESTS} -Dbiowdl.integrationTests=${env.INTEGRATION_TESTS} -Dbiowdl.outputDir=${outputDir} -Dcromwell.jar=${env.CROMWELL_JAR} -Dcromwell.config=${env.CROMWELL_CONFIG} -Dcromwell.extraOptions=-Dbackend.providers.${env.CROMWELL_BACKEND}.config.root=${outputDir}/cromwell-executions -Dbiowdl.fixtureDir=${env.FIXTURE_DIR} -Dbiowdl.threads=${env.THREADS} -no-colors -batch"
-                    env.activateEnv= "source ${env.CONDA_PREFIX}/bin/activate \$(readlink -f ${condaEnv})"
-                    env.createEnv= "${env.CONDA_PREFIX}/bin/conda-env create -f environment.yml -p ${condaEnv}"
                 }
                 sh "rm -rf ${outputDir}"
                 sh "mkdir -p ${outputDir}"
@@ -67,16 +64,22 @@ pipeline {
 
         stage('Create conda environment') {
             steps {
+                script {
+                    env.envHash= sh(returnStdout: true, script: "sha256sum environment.yml | cut -f1 -d ' '")
+                    env.condaEnv= "${env.CONDA_PREFIX}/envs/${envHash}"
+                    env.activateEnv= "source ${env.CONDA_PREFIX}/bin/activate \$(readlink -f ${condaEnv})"
+                    env.createEnv= "${env.CONDA_PREFIX}/bin/conda-env create -f environment.yml -p ${condaEnv}"
+                }
                 sh "#!/bin/bash\n" +
                     "set -e -v -o pipefail\n" +
-                    "${createEnv}\n"
+                    "[[ -d ${env.condaEnv} ]] || ${createEnv}\n"
             }
         }
 
         stage('Build & Test') {
             steps {
                 sh "#!/bin/bash\n" +
-                        "set -e -v\n" +
+                        "set -e -v  -o pipefail\n" +
                         "${activateEnv}\n" +
                         "${sbt} test"
             }
