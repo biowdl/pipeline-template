@@ -18,17 +18,17 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 samples:
-  sample1:
+  - id: sample1
     libraries:
-      lib1:
+      - id: lib1
         readgroups:
-          rg1:
-            R1: R1.fq
-            R2: R2.fq
-  sample2:
+          - id: rg1
+            R1: rg1_R1.fq
+            R2: rg1_R2.fq
+  - id: sample2
     libraries:
-      lib1:
+      - id: lib:1
         readgroups:
-          rg1:
+          - id: rg1
             R1: R1.fq
             R2: R2.fq
