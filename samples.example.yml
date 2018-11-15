@@ -27,7 +27,7 @@ samples:
             R2: rg1_R2.fq
   - id: sample2
     libraries:
-      - id: lib:1
+      - id: lib1
         readgroups:
           - id: rg1
             R1: R1.fq
