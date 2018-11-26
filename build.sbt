@@ -7,6 +7,7 @@ biopetUrlName := "pipeline-template"
 startYear := Some(2018)
 
 biopetIsTool := false
+biopetIsPipeline := true
 
 developers += Developer(id = "ffinfo",
                         name = "Peter van 't Hof",
