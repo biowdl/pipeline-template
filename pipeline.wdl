@@ -20,6 +20,7 @@ version 1.0
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import "tasks/common.wdl" as common
 import "sample.wdl" as sampleWorkflow
 import "structs.wdl" as structs
 
@@ -29,7 +30,11 @@ workflow pipeline {
         String outputDir
     }
 
-    SampleConfig sampleConfig = read_json(sampleConfigFile)
+    call common.YamlToJson {
+        input:
+            yaml = sampleConfigFile
+    }
+    SampleConfig sampleConfig = read_json(YamlToJson.json)
 
     # Do the jobs that should be executed per sample.
     # Modify sample.wdl to change what is happening per sample
