@@ -20,27 +20,25 @@ version 1.0
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import "tasks/common.wdl" as common
 import "sample.wdl" as sampleWorkflow
 import "structs.wdl" as structs
-import "tasks/biopet/sampleconfig.wdl" as biopet
 
 workflow pipeline {
     input {
-        Array[File] sampleConfigFiles
+        File sampleConfigFile
         String outputDir
     }
 
-    call biopet.SampleConfigCromwellArrays as configFile {
+    call common.YamlToJson {
         input:
-            inputFiles = sampleConfigFiles,
-            outputPath = "samples.json"
+            yaml = sampleConfigFile
     }
-
-    Root config = read_json(configFile.outputFile)
+    SampleConfig sampleConfig = read_json(YamlToJson.json)
 
     # Do the jobs that should be executed per sample.
     # Modify sample.wdl to change what is happening per sample
-    scatter (sample in config.samples) {
+    scatter (sample in sampleConfig.samples) {
         call sampleWorkflow.sample as sampleTasks {
             input:
                 sample = sample,
