@@ -5,6 +5,14 @@ set -eu
 GIT_ROOT="$(git rev-parse --show-toplevel)"
 VERSION_FILE="VERSION"
 
+function check_tagged_submodules {
+    echo "Check if all submodules are tagged"
+    git submodule foreach --recursive \
+    bash -c 'if [ "$(git tag --contains)" == "" ] ; \
+    then echo "Untagged submodule found. Please make sure all submodules are released. Aborting release procedure." && exit 1 ;\
+    else echo "contains tag: $(git tag --contains)" ;\
+    fi'
+}
 # CHECKING OUT LATEST VERSION OF DEVELOP
 cd $GIT_ROOT
 echo "Checking out develop"
@@ -13,12 +21,7 @@ echo "Get latest develop branch"
 git pull origin develop
 
 # CHECKING IF PIPELINE IS READY FOR RELEASE
-echo "Check if all submodules are tagged"
-git submodule foreach --recursive \
-bash -c 'if [ "$(git tag --contains)" == "" ] ; \
-then echo "Untagged submodule found. Please make sure all submodules are released. Aborting release procedure." && exit 1 ;\
-else echo "contains tag: $(git tag --contains)" ;\
-fi'
+check_tagged_submodules
 
 # MERGING INTO MASTER
 echo "Merge develop into master"
@@ -27,12 +30,7 @@ git pull origin master
 git merge origin/develop
 
 # Another check to see if after merging everything still is okay.
-echo "Check if all submodules are tagged"
-git submodule foreach --recursive \
-bash -c 'if [ "$(git tag --contains)" == "" ] ; \
-then echo "Untagged submodule found. Please make sure all submodules are released. Aborting release procedure." && exit 1 ;\
-else echo "contains tag: $(git tag --contains)" ;\
-fi'
+check_tagged_submodules
 # TODO: Add command that does a quick test of the pipeline.
 # Womtool validate maybe?
 
