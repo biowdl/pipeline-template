@@ -38,7 +38,7 @@ check_tagged_submodules
 if [ -f $VERSION_FILE ]
 then
     CURRENT_VERSION="$(cat $VERSION_FILE)"
-    read -p $"To be released version is $CURRENT_VERSION. Type a different version if required (Leave empty for $CURRENT_VERSION)\n" \
+    read -p $"To be released version is $CURRENT_VERSION. Type a different version if required (Leave empty for $CURRENT_VERSION)"$'\n' \
     CURRENT_VERSION_OVERRIDE
     if [ "$CURRENT_VERSION_OVERRIDE" != "" ]
     then
