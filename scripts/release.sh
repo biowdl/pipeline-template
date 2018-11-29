@@ -66,7 +66,7 @@ done
 git checkout develop
 git merge master
 echo "Released version was: $CURRENT_VERSION"
-read -p $"What should be the next version?"'$\n' NEXT_VERSION
+read -p $"What should be the next version?"$'\n' NEXT_VERSION
 echo "Setting next version to be: $NEXT_VERSION"
 echo "$NEXT_VERSION" > $VERSION_FILE
 git add $VERSION_FILE
