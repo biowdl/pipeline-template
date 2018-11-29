@@ -8,9 +8,9 @@ VERSION_FILE="VERSION"
 function check_tagged_submodules {
     echo "Check if all submodules are tagged"
     git submodule foreach --recursive \
-    bash -c 'if [ "$(git tag --contains)" == "" ] ; \
+    bash -c 'if [ "$(git tag -l --points-at HEAD)" == "" ] ; \
     then echo "Untagged submodule found. Please make sure all submodules are released. Aborting release procedure." && exit 1 ;\
-    else echo "contains tag: $(git tag --contains)" ;\
+    else echo "contains tag: $(git tag -l --points-at HEAD)" ;\
     fi'
 }
 # CHECKING OUT LATEST VERSION OF DEVELOP
