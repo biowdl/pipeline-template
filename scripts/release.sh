@@ -40,7 +40,7 @@ fi'
 if [ -f $VERSION_FILE ]
 then
     CURRENT_VERSION="$(cat $VERSION_FILE)"
-    read -p "To be released version is $CURRENT_VERSION. Type a different version if required (Leave empty for no)" CURRENT_VERSION_OVERRIDE
+    read -p $'To be released version is $CURRENT_VERSION. Type a different version if required (Leave empty for no)\n' CURRENT_VERSION_OVERRIDE
     if [ "$CURRENT_VERSION_OVERRIDE" != "" ]
     then
         CURRENT_VERSION="$CURRENT_VERSION_OVERRIDE"
