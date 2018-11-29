@@ -37,7 +37,18 @@ fi'
 # Womtool validate maybe?
 
 # SET RELEASE VERSION
-CURRENT_VERSION="$(cat $VERSION_FILE)"
+if [ -f $VERSION_FILE ]
+then
+    CURRENT_VERSION="$(cat $VERSION_FILE)"
+    read -p "To be released version is $CURRENT_VERSION. Type a different version if required (Leave empty for no)" CURRENT_VERSION_OVERRIDE
+    if [ "$CURRENT_VERSION_OVERRIDE" != "" ]
+    then
+        CURRENT_VERSION="$CURRENT_VERSION_OVERRIDE"
+    fi
+else
+    read -p "No version file at location '$VERSION_FILE' was found. What version do you want to release?" CURRENT_VERSION
+fi
+
 echo "Version to be released = $CURRENT_VERSION"
 RELEASE_TAG="v$CURRENT_VERSION"
 echo "Tagging release: $RELEASE_TAG"
