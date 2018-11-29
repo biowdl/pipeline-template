@@ -40,13 +40,15 @@ fi'
 if [ -f $VERSION_FILE ]
 then
     CURRENT_VERSION="$(cat $VERSION_FILE)"
-    read -p $'To be released version is $CURRENT_VERSION. Type a different version if required (Leave empty for no)\n' CURRENT_VERSION_OVERRIDE
+    read -p $'To be released version is $CURRENT_VERSION. Type a different version if required (Leave empty for no)\n' \
+    CURRENT_VERSION_OVERRIDE
     if [ "$CURRENT_VERSION_OVERRIDE" != "" ]
     then
         CURRENT_VERSION="$CURRENT_VERSION_OVERRIDE"
     fi
 else
-    read -p "No version file at location '$VERSION_FILE' was found. What version do you want to release?" CURRENT_VERSION
+    read -p $'No version file at location '$VERSION_FILE' was found. What version do you want to release?\n' \
+    CURRENT_VERSION
 fi
 
 echo "Version to be released = $CURRENT_VERSION"
@@ -66,7 +68,7 @@ done
 git checkout develop
 git merge master
 echo "Released version was: $CURRENT_VERSION"
-read -p "What should be the next version? " NEXT_VERSION
+read -p $'What should be the next version?\n' NEXT_VERSION
 echo "Setting next version to be: $NEXT_VERSION"
 echo "$NEXT_VERSION" > $VERSION_FILE
 git add $VERSION_FILE
