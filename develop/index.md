@@ -1,5 +1,5 @@
 ---
-title: pipeline-template
+title: Home
 ---
 
 This is a pipeline template.
