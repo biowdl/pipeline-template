@@ -1,7 +1,5 @@
 ---
-layout: default
-title: Home
+title: pipeline-template
 ---
-
 
 This is a pipeline template.
