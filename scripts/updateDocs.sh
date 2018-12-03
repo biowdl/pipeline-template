@@ -1,20 +1,27 @@
-set -eu
+#!/usr/bin/env bash
+set -eu -o pipefail
 
 GIT_ROOT="$(git rev-parse --show-toplevel)"
 cd $GIT_ROOT
 
 # Determine the version
-BRANCH="$(git branch | grep \* | cut -d ' ' -f2)"
-if [ "${BRANCH}" == 'develop' ]
+TAG=`git tag -l --points-at HEAD`
+if [ "${TAG}" == '' ]
   then
-    VERSION='develop'
+    BRANCH=`git rev-parse --abbrev-ref HEAD`
+    if [ "${BRANCH}" == 'develop' ]
+      VERSION='develop'
+    else
+      echo 'You are currently not on a tagged commit or develop!'
+      exit 1
   else
-    VERSION=v`cat VERSION`
+    VERSION="${TAG}"
 fi
 
 # Checkout gh-pages and pull the docs over from the original branch
 git checkout gh-pages
-git checkout $BRANCH -- docs
+git pull
+git checkout $VERSION -- docs
 
 # Rename the docs to the version
 if [ -d "${VERSION}" ]
@@ -36,7 +43,7 @@ grep 'latest:' < _config.yml;
 # commit and push
 git add ${VERSION}/* _config.yml docs/*
 git commit -m "update documention for version ${VERSION}"
-# git push origin gh-pages #FIXME uncomment 
+# git push origin gh-pages #FIXME uncomment
 
-# switch back to $BRANCH
-git checkout $BRANCH
+# switch back to version
+git checkout $VERSION
