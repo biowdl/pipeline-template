@@ -10,10 +10,12 @@ if [ "${TAG}" == '' ]
   then
     BRANCH=`git rev-parse --abbrev-ref HEAD`
     if [ "${BRANCH}" == 'develop' ]
-      VERSION='develop'
-    else
-      echo 'You are currently not on a tagged commit or develop!'
-      exit 1
+      then
+        VERSION='develop'
+      else
+        echo 'You are currently not on a tagged commit or develop!'
+        exit 1
+    fi
   else
     VERSION="${TAG}"
 fi
@@ -32,7 +34,8 @@ mv docs $VERSION
 
 # Adjust the config if necessary
 echo "set version '${VERSION}' to latest?"
-select yn in "Yes" "No"; do
+select yn in "Yes" "No"
+  do
     case $yn in
         Yes ) sed -i "s/latest: .*/latest: ${VERSION}/" _config.yml; break;;
         No ) break;;
