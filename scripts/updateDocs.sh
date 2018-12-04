@@ -19,6 +19,7 @@ if [ "${TAG}" == '' ]
   else
     VERSION="${TAG}"
 fi
+echo "Updating documention for version ${VERSION}"
 
 # Checkout gh-pages and pull the docs over from the original branch
 git checkout gh-pages
@@ -41,12 +42,15 @@ select yn in "Yes" "No"
         No ) break;;
     esac
 done
-grep 'latest:' < _config.yml;
+grep 'latest:' < _config.yml
 
 # commit and push
+echo "commiting and pushing"
 git add ${VERSION}/* _config.yml docs/*
 git commit -m "update documention for version ${VERSION}"
 # git push origin gh-pages #FIXME uncomment
 
 # switch back to version
 git checkout $VERSION
+
+echo "DONE"
