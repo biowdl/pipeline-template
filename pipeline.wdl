@@ -27,7 +27,7 @@ import "structs.wdl" as structs
 workflow pipeline {
     input {
         File sampleConfigFile
-        String outputDir
+        String outputDir = "."
     }
 
     call common.YamlToJson {
