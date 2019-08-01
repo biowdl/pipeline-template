@@ -27,7 +27,10 @@ import "structs.wdl" as structs
 workflow pipeline {
     input {
         File sampleConfigFile
+        Array[Sample] samples = []
         String outputDir = "."
+
+        File dockerImagesFile
     }
 
     call common.YamlToJson {
@@ -39,7 +42,7 @@ workflow pipeline {
     # Do the jobs that should be executed per sample.
     # Modify sample.wdl to change what is happening per sample
     scatter (sample in sampleConfig.samples) {
-        call sampleWorkflow.sample as sampleTasks {
+        call sampleWorkflow.sample as sampleWorkflow {
             input:
                 sample = sample,
                 outputDir = outputDir + "/samples/" + sample.id
@@ -50,7 +53,8 @@ workflow pipeline {
     # below this line.
 
     output {
-        # INSERT OUTPUTS HERE
+        # REPLACE THESE WITH REAL OUTPUTS
+        Array[File] out = flatten(sampleWorkflow.out)
     }
 }
 

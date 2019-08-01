@@ -1,0 +1,4 @@
+{
+  "pipeline.sampleConfigFile": "tests/samplesheets/samples.example.yml",
+  "pipeline.dockerImagesFile": "dockerImages.yml"
+}

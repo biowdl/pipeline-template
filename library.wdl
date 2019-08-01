@@ -44,6 +44,7 @@ workflow library {
     # all the readgroups below this line.
 
     output {
-        # INSERT OUTPUTS HERE
+        # REPLACE WITH REAL OUTPUTS
+        Array[File] out = readgroupWorkflow.out
     }
 }

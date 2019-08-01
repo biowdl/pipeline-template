@@ -1,0 +1,10 @@
+- name: ExampleTest
+  tags:
+    - integration
+    - no_docker_conf
+  command: >-
+    cromwell run -o tests/cromwell_config/cromwell_options.json
+    -i tests/integration/exampleTest.json pipeline.wdl
+  files:
+    - path: "test-output/samples/sample1/lib_lib1/rg_rg1/echo.out"
+    - path: "test-output/samples/sample2/lib_lib1/rg_rg1/echo.out"
