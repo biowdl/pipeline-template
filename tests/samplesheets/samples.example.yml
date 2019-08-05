@@ -23,12 +23,14 @@ samples:
       - id: lib1
         readgroups:
           - id: rg1
-            R1: rg1_R1.fq
-            R2: rg1_R2.fq
+            reads:
+              R1: tests/data/s1_R1.fq
+              R2: tests/data/s1_R2.fq
   - id: sample2
     libraries:
       - id: lib1
         readgroups:
           - id: rg1
-            R1: R1.fq
-            R2: R2.fq
+            reads:
+              R1: tests/data/s2_R1.fq
+              R2: tests/data/s2_R2.fq

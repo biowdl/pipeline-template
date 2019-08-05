@@ -36,6 +36,7 @@ workflow readgroup {
     }
 
     output {
+        # REPLACE THESE WITH REAL OUTPUTS
         File inputR1 = readgroup.reads.R1
         File? inputR2 = readgroup.reads.R2
         File out = echo.out

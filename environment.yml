@@ -1,8 +1,0 @@
-name: pipeline-template
-channels:
-  - conda-forge
-  - bioconda
-  - defaults
-dependencies:
-  - pyyaml
-  - biopet-sampleconfig==0.2
